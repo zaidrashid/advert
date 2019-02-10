@@ -1,0 +1,74 @@
+{
+    "name": "Publication Histogram",
+    "version": "1.0.0",
+    "description": "",
+    "server": {
+        "port": 8210
+    },
+    "build": {
+        "root": ".build/",
+        "js": ".build/js",
+        "jsFiles": ".build/js/*.js",
+        "module": ".build/module",
+        "moduleFiles": ".build/module/*.js",
+        "css": ".build/css",
+        "cssFiles": ".build/css/*.css",
+        "fonts": ".build/fonts",
+        "index": ".build/index.html",
+        "assetFolder": ".build/assets"
+    },
+    "dist": {
+        "root": "docs/",
+        "index": "docs/index.html",
+        "jsFiles": "docs/*.js",
+        "cssFiles": "docs/*.css",
+        "fonts": "docs/fonts"
+    },
+    "src": {
+        "root": "src",
+        "index": "src/index.html",
+        "jspackages": "src/assets/packages",
+        "csspackages": "src/assets/css",
+        "fontsfolder": "src/assets/fonts",
+        "scss": "src/assets/scss/**/*.scss",
+        "css": "src/assets/css/**/*.css",
+        "html": [
+            "src/**/*.html",
+            "!src/index.html"
+        ],
+        "assets": []
+    },
+    "imports": {
+        "modules": {
+            "js": [
+                "node_modules/angular/angular.js",
+                "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
+                "node_modules/angular-sanitize/angular-sanitize.js"
+            ],
+            "jsForDocs": [
+                "node_modules/angular/angular.js",
+                "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
+                "node_modules/angular-sanitize/angular-sanitize.js"
+            ],
+            "css": [
+                "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css"
+            ],
+            "fonts": []
+        },
+        "js": [
+            "src/mainModule.js",
+            "src/mainRoute.js",
+            "src/mainController.js",
+            "src/components/**/*.js",
+            "src/search/**/*.js",
+            "src/util/**/*.js",
+            "src/factory/**/*.js",
+            "src/publication/**/*.js",
+            "src/models/**/*.js",
+            "src/highcharts/**/*.js",
+            "src/constant/**/*.js",
+            ".build/js/templates.js"
+        ],
+        "css": []
+    }
+}

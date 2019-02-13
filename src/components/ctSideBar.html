@@ -1,0 +1,6 @@
+<div>
+    <select ng-model="$ctrl.selected" ng-change="$ctrl.onSelect($ctrl.selected)">
+        <option ng-repeat="option in $ctrl.advertisers" value="{{option.id}}">{{option.name}}</option>
+    </select>
+    <button ng-click="$ctrl.onReset()">Search</button>
+</div>

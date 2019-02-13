@@ -1,6 +1,9 @@
 (function($angular) {
     $angular.module('dashboard', [
         'ui.router',
-        'ngSanitize'
+        'ngSanitize',
+        'ui.bootstrap',
+        'ui.grid',
+        'ui.grid.selection'
     ]);
 })(window.angular);

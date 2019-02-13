@@ -13,6 +13,7 @@
     var csso = require('gulp-csso');
     var ngHtml2Js = require('gulp-ng-html2js');
     var htmlmin = require('gulp-htmlmin');
+    var csvToJson = require('gulp-csv2json');
 
     var homePath = process.cwd();
     var config = require(path.join(homePath, 'config.json'));
@@ -74,6 +75,7 @@
                     generateCssFiles,
                     injectCssFiles,
                     copyFontFilesForBuild,
+                    convertCsvToJsonAndCopy
                 ], done);
             },
             function prepareDocs(done) {
@@ -81,7 +83,8 @@
                     copyBaseFiles,
                     combineAndInjectJsFiles,
                     combineAndInjectCss,
-                    copyFontFilesForDocs
+                    copyFontFilesForDocs,
+                    copyDataFolder
                 ], done);
             }
         ]);
@@ -149,6 +152,13 @@
         copyFontFiles(done, config.imports.modules.fonts, config.build.fonts);
     }
 
+    function convertCsvToJsonAndCopy(done) {
+        gulp.src(config.src.data)
+            .pipe(csvToJson({}))
+            .pipe(gulp.dest(config.build.dataFolder))
+            .on('end', done);
+    }
+
     // dist process
     function copyBaseFiles(done) {
         gulp.src(config.src.index)
@@ -181,5 +191,11 @@
 
     function copyFontFilesForDocs(done) {
         copyFontFiles(done, config.imports.modules.fonts, config.dist.fonts);
+    }
+
+    function copyDataFolder(done) {
+        gulp.src(config.build.dataFiles)
+            .pipe(gulp.dest(config.dist.data))
+            .on('end', done);
     }
 })();

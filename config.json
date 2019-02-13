@@ -15,14 +15,17 @@
         "cssFiles": ".build/css/*.css",
         "fonts": ".build/fonts",
         "index": ".build/index.html",
-        "assetFolder": ".build/assets"
+        "assetFolder": ".build/assets",
+        "dataFolder": ".build/data",
+        "dataFiles": ".build/**/*.json"
     },
     "dist": {
         "root": "docs/",
         "index": "docs/index.html",
         "jsFiles": "docs/*.js",
         "cssFiles": "docs/*.css",
-        "fonts": "docs/fonts"
+        "fonts": "docs/fonts",
+        "data": "docs"
     },
     "src": {
         "root": "src",
@@ -36,37 +39,58 @@
             "src/**/*.html",
             "!src/index.html"
         ],
-        "assets": []
+        "assets": [],
+        "data": "src/data/**/*.csv"
     },
     "imports": {
         "modules": {
             "js": [
+                "node_modules/jquery/dist/jquery.min.js",
                 "node_modules/angular/angular.js",
+                "node_modules/angular-animate/angular-animate.min.js",
                 "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
-                "node_modules/angular-sanitize/angular-sanitize.js"
+                "node_modules/angular-sanitize/angular-sanitize.js",
+                "node_modules/angular-ui-grid/ui-grid.min.js",
+                "node_modules/angular-ui-grid/ui-grid.selection.js",
+                "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
+                "node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js",
+                "node_modules/chartist/dist/chartist.min.js",
+                "node_modules/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"
             ],
             "jsForDocs": [
+                "node_modules/jquery/dist/jquery.min.js",
                 "node_modules/angular/angular.js",
+                "node_modules/angular-animate/angular-animate.min.js",
                 "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
-                "node_modules/angular-sanitize/angular-sanitize.js"
+                "node_modules/angular-sanitize/angular-sanitize.js",
+                "node_modules/angular-ui-grid/ui-grid.min.js",
+                "node_modules/angular-ui-grid/ui-grid.selection.js",
+                "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
+                "node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js",
+                "node_modules/chartist/dist/chartist.min.js",
+                "node_modules/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"
             ],
             "css": [
+                "node_modules/chartist/dist/chartist.min.css",
+                "node_modules/angular-ui-grid/ui-grid.min.css",
                 "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css"
             ],
-            "fonts": []
+            "fonts": [
+                "node_modules/angular-ui-grid/fonts/ui-grid.eot",
+                "node_modules/angular-ui-grid/fonts/ui-grid.svg",
+                "node_modules/angular-ui-grid/fonts/ui-grid.ttf",
+                "node_modules/angular-ui-grid/fonts/ui-grid.woff"
+            ]
         },
         "js": [
             "src/mainModule.js",
             "src/mainRoute.js",
             "src/mainController.js",
+            "src/views/**/*.js",
             "src/components/**/*.js",
-            "src/search/**/*.js",
-            "src/util/**/*.js",
-            "src/factory/**/*.js",
-            "src/publication/**/*.js",
-            "src/models/**/*.js",
-            "src/highcharts/**/*.js",
-            "src/constant/**/*.js",
+            "src/constants/**/*.js",
+            "src/factories/**/*.js",
+            "src/services/**/*.js",
             ".build/js/templates.js"
         ],
         "css": []

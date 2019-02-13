@@ -33,6 +33,7 @@ module.exports = {
         "$cardApi": true,
         "uuid": true,
         "inject": true,
-        "xolor": true
+        "xolor": true,
+        "Chartist": true
     }
 };

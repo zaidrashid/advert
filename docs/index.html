@@ -4,16 +4,19 @@
 <head>
     <meta charset="utf-8" />
     <!-- inject:css -->
-    <link rel="stylesheet" href="system-69616de964.css">
+    <link rel="stylesheet" href="system-09cd512f7a.css">
     <!-- endinject -->
     <!-- inject:js -->
-    <script src="system-001d829405.js"></script>
+    <script src="system-281fa71030.js"></script>
     <!-- endinject -->
 </head>
 
 <body>
     <div ng-controller="mainController" class="main-controller">
-        {{text}}
+        <ct-side-bar on-advertiser-change="onAdvertiserChange(id)"></ct-side-bar>
+        <div class="container">
+            <ui-view></ui-view>
+        </div>
     </div>
 </body>
 

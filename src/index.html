@@ -11,7 +11,10 @@
 
 <body>
     <div ng-controller="mainController" class="main-controller">
-        {{text}}
+        <ct-side-bar on-advertiser-change="onAdvertiserChange(id)"></ct-side-bar>
+        <div class="container">
+            <ui-view></ui-view>
+        </div>
     </div>
 </body>
 

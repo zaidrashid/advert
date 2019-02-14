@@ -56,6 +56,7 @@
                     name: temp.name,
                     start_date: temp.start_date,
                     end_date: temp.end_date,
+                    cost: temp.cost,
                     cost_model: temp.cost_model
                 });
             }

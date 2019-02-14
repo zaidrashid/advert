@@ -73,7 +73,9 @@
             "css": [
                 "node_modules/chartist/dist/chartist.min.css",
                 "node_modules/angular-ui-grid/ui-grid.min.css",
-                "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css"
+                "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css",
+                "node_modules/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css",
+                "node_modules/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css.map"
             ],
             "fonts": [
                 "node_modules/angular-ui-grid/fonts/ui-grid.eot",

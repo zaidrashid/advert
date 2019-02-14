@@ -5,3 +5,19 @@ ct-side-bar {
     min-height: 100vh;
     background-color: lightblue
 }
+
+.side-bar {
+    display: flex;
+    flex-direction: column;
+
+    .selection-holder {
+        margin: 0.5em;
+        select {
+            width: 100%;
+        }
+    }
+
+    .reset-holder {
+        margin: 0.5em;
+    }
+}

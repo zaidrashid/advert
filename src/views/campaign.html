@@ -1,5 +1,5 @@
-<div ng-controller="campaignController">
-    <div>{{advertiserName || startupMessage}}</div>
+<div ng-controller="campaignController" class="campaign">
+    <div class="title">{{advertiserName || startupMessage}}</div>
     <ct-chart ng-if="chartData" chart-data="chartData"></ct-chart>
     <ct-table ng-if="campaignsData" data="campaignsData" enable-select="true" on-row-selection="onRowSelection(entity)"></ct-table>
     <ct-table ng-if="reportsData" data="reportsData" enable-select="false" on-row-selection="onRowSelection(entity)"></ct-table>

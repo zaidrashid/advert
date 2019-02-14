@@ -4,3 +4,15 @@
         height: 100%;
     }
 }
+
+.ct-series-a {
+    .ct-slice-pie {
+        /* fill of the pie slieces */
+        fill: hsl(120, 40%, 60%);
+    }
+}
+.ct-chart-pie {
+    .ct-label {
+        font-size: 2em;
+    }
+}

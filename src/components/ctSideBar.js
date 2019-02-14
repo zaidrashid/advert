@@ -10,13 +10,12 @@
         ) {
             var $ctrl = this;
             dataService.getAdvertiserData().then(function(data) {
-                console.log(data);
                 $ctrl.advertisers = data;
             });
 
             $ctrl.onSelect = function(s) {
                 console.log('select', s);
-                $ctrl.onAdvertiserChange({id:s});
+                $ctrl.onAdvertiserChange({id: s});
             };
 
             $ctrl.onReset = function() {

@@ -53802,12 +53802,9 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
 (function($angular) {
     $angular.module('dashboard').controller('mainController', function(
         $scope,
-        $state,
         $location
         ) {
             $scope.onAdvertiserChange = function(advertiserId) {
-                console.log(advertiserId);
-                // $state.href('campaign', {id: advertiserId});
                 $location.path('/campaign').search({id: advertiserId});
             };
     });
@@ -53860,7 +53857,6 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
         $scope.reportsData;
 
         $scope.$on('$locationChangeSuccess', function updatePage() {
-            console.log('i got ', $location.search());
             updateData();
         });
 
@@ -53876,9 +53872,7 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
         }
 
         $scope.onRowSelection = function(entity) {
-            console.log(entity);
             dataService.getReportData(entity.id).then(function(reports) {
-                console.log(reports);
                 $scope.reportsData = {
                     tableData: reports,
                     title: 'Reports for ' + entity.name
@@ -53907,7 +53901,6 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
                     configuration: generateCampaignChart(campaigns),
                     type: CHART_TYPE.PIE
                 };
-                console.log('campaign data ', $scope.chartData);
             });
         }
 
@@ -53920,28 +53913,28 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
             var data = [];
             if (perClick.length) {
                 labels.push('Click');
-                data.push(perClick.length);
+                data.push({meta: 'Per click', value: perClick.length});
             }
 
             if (perInstall.length) {
                 labels.push('Install');
-                data.push(perInstall.length);
+                data.push({meta: 'Per Install', value: perInstall.length});
             }
 
             if (perImpression.length) {
                 labels.push('Impression');
-                data.push(perImpression.length);
+                data.push({meta: 'Per Impression', value: perImpression.length});
             }
 
             return {
                 data: data,
                 labels: labels,
                 options: {
-                    showLabel: false,
+                    showLabel: true,
                     plugins: [
                         Chartist.plugins.tooltip()
                     ]
-                }
+                },
             };
         }
 
@@ -53953,9 +53946,9 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
 
             for (var i = 0; i < rawData.length; i++) {
                 var dataSet = rawData[i];
-                clicks.push(dataSet.clicks);
-                impressions.push(dataSet.impressions);
-                installs.push(dataSet.installs);
+                clicks.push({meta: 'Clicks on ' + dataSet.date, value: dataSet.clicks});
+                impressions.push({meta: 'Impressions on ' + dataSet.date, value: dataSet.impressions});
+                installs.push({meta: 'Installs on ' + dataSet.date, value: dataSet.installs});
                 labels.push(dataSet.date);
             }
 
@@ -53969,6 +53962,7 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
                     chartPadding: {
                         right: 40
                     },
+                    lineSmooth: false,
                     plugins: [
                         Chartist.plugins.tooltip()
                     ]
@@ -53995,7 +53989,7 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
             chartFactory
         ) {
             var $ctrl = this;
-            $ctrl.$onChanges = function(changes) {
+            $ctrl.$onChanges = function() {
                 updateChart($ctrl.chartData);
             };
 
@@ -54009,12 +54003,62 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
                     return;
                 }
 
-                var options = chartData.configuration.option;
+                var options = chartData.configuration.options;
                 var Chart = chartFactory.getChart(chartData.type);
-                new Chart('.ct-chart', {
+                var chart = new Chart('.ct-chart', {
                     series: configuration.data,
                     labels: configuration.labels
                 }, options);
+
+
+                var seq = 0;
+                var delays1percent = 1.1;
+                var durations = 100;
+
+                // reset
+                chart.on('created', function() {
+                    seq = 0;
+                });
+                chart.on('draw', function(data) {
+                    seq++;
+                    switch (data.type) {
+                        case 'line':
+                            data.element.animate({
+                                opacity: {
+                                    begin: seq * 1.2,
+                                    dur: durations,
+                                    from: 0,
+                                    to: 1
+                                }
+                            });
+                            break;
+                        case 'point':
+                            data.element.animate({
+                                x1: {
+                                    begin: seq * delays1percent,
+                                    dur: durations,
+                                    from: data.x - 10,
+                                    to: data.x,
+                                    easing: 'easeOutQuart'
+                                },
+                                x2: {
+                                    begin: seq * delays1percent,
+                                    dur: durations,
+                                    from: data.x - 10,
+                                    to: data.x,
+                                    easing: 'easeOutQuart'
+                                },
+                                opacity: {
+                                    begin: seq * delays1percent,
+                                    dur: durations,
+                                    from: 0,
+                                    to: 1,
+                                    easing: 'easeOutQuart'
+                                }
+                            });
+                            break;
+                    }
+                });
             }
         }
     });
@@ -54032,13 +54076,12 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
         ) {
             var $ctrl = this;
             dataService.getAdvertiserData().then(function(data) {
-                console.log(data);
                 $ctrl.advertisers = data;
             });
 
             $ctrl.onSelect = function(s) {
                 console.log('select', s);
-                $ctrl.onAdvertiserChange({id:s});
+                $ctrl.onAdvertiserChange({id: s});
             };
 
             $ctrl.onReset = function() {
@@ -54288,6 +54331,7 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
                     name: temp.name,
                     start_date: temp.start_date,
                     end_date: temp.end_date,
+                    cost: temp.cost,
                     cost_model: temp.cost_model
                 });
             }
@@ -54328,11 +54372,15 @@ angular.module('dashboard').run(['$templateCache', function($templateCache) {
 
 angular.module('dashboard').run(['$templateCache', function($templateCache) {
   $templateCache.put('components/ctSideBar.html',
-    '<div>\n' +
-    '    <select ng-model="$ctrl.selected" ng-change="$ctrl.onSelect($ctrl.selected)">\n' +
-    '        <option ng-repeat="option in $ctrl.advertisers" value="{{option.id}}">{{option.name}}</option>\n' +
-    '    </select>\n' +
-    '    <button ng-click="$ctrl.onReset()">Search</button>\n' +
+    '<div class="side-bar">\n' +
+    '    <div class="selection-holder">\n' +
+    '        <select ng-model="$ctrl.selected" ng-change="$ctrl.onSelect($ctrl.selected)">\n' +
+    '            <option ng-repeat="option in $ctrl.advertisers" value="{{option.id}}">{{option.name}}</option>\n' +
+    '        </select>\n' +
+    '    </div>\n' +
+    '    <div class="reset-holder">\n' +
+    '        <button ng-click="$ctrl.onReset()">Reset</button>\n' +
+    '    </div>\n' +
     '</div>');
 }]);
 
@@ -54347,8 +54395,8 @@ angular.module('dashboard').run(['$templateCache', function($templateCache) {
 
 angular.module('dashboard').run(['$templateCache', function($templateCache) {
   $templateCache.put('views/campaign.html',
-    '<div ng-controller="campaignController">\n' +
-    '    <div>{{advertiserName || startupMessage}}</div>\n' +
+    '<div ng-controller="campaignController" class="campaign">\n' +
+    '    <div class="title">{{advertiserName || startupMessage}}</div>\n' +
     '    <ct-chart ng-if="chartData" chart-data="chartData"></ct-chart>\n' +
     '    <ct-table ng-if="campaignsData" data="campaignsData" enable-select="true" on-row-selection="onRowSelection(entity)"></ct-table>\n' +
     '    <ct-table ng-if="reportsData" data="reportsData" enable-select="false" on-row-selection="onRowSelection(entity)"></ct-table>\n' +

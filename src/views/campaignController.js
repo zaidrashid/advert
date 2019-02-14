@@ -14,7 +14,6 @@
         $scope.reportsData;
 
         $scope.$on('$locationChangeSuccess', function updatePage() {
-            console.log('i got ', $location.search());
             updateData();
         });
 
@@ -30,9 +29,7 @@
         }
 
         $scope.onRowSelection = function(entity) {
-            console.log(entity);
             dataService.getReportData(entity.id).then(function(reports) {
-                console.log(reports);
                 $scope.reportsData = {
                     tableData: reports,
                     title: 'Reports for ' + entity.name
@@ -61,7 +58,6 @@
                     configuration: generateCampaignChart(campaigns),
                     type: CHART_TYPE.PIE
                 };
-                console.log('campaign data ', $scope.chartData);
             });
         }
 
@@ -74,28 +70,28 @@
             var data = [];
             if (perClick.length) {
                 labels.push('Click');
-                data.push(perClick.length);
+                data.push({meta: 'Per click', value: perClick.length});
             }
 
             if (perInstall.length) {
                 labels.push('Install');
-                data.push(perInstall.length);
+                data.push({meta: 'Per Install', value: perInstall.length});
             }
 
             if (perImpression.length) {
                 labels.push('Impression');
-                data.push(perImpression.length);
+                data.push({meta: 'Per Impression', value: perImpression.length});
             }
 
             return {
                 data: data,
                 labels: labels,
                 options: {
-                    showLabel: false,
+                    showLabel: true,
                     plugins: [
                         Chartist.plugins.tooltip()
                     ]
-                }
+                },
             };
         }
 
@@ -107,9 +103,9 @@
 
             for (var i = 0; i < rawData.length; i++) {
                 var dataSet = rawData[i];
-                clicks.push(dataSet.clicks);
-                impressions.push(dataSet.impressions);
-                installs.push(dataSet.installs);
+                clicks.push({meta: 'Clicks on ' + dataSet.date, value: dataSet.clicks});
+                impressions.push({meta: 'Impressions on ' + dataSet.date, value: dataSet.impressions});
+                installs.push({meta: 'Installs on ' + dataSet.date, value: dataSet.installs});
                 labels.push(dataSet.date);
             }
 
@@ -123,6 +119,7 @@
                     chartPadding: {
                         right: 40
                     },
+                    lineSmooth: false,
                     plugins: [
                         Chartist.plugins.tooltip()
                     ]

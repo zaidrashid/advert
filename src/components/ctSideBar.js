@@ -11,15 +11,21 @@
             var $ctrl = this;
             dataService.getAdvertiserData().then(function(data) {
                 $ctrl.advertisers = data;
+                var param = $location.search();
+
+                if (!param || !param.id) {
+                    return;
+                }
+                $ctrl.selected = param.id;
             });
 
             $ctrl.onSelect = function(s) {
-                console.log('select', s);
                 $ctrl.onAdvertiserChange({id: s});
             };
 
             $ctrl.onReset = function() {
                 $location.path('/');
+                $ctrl.selected = undefined;
             };
         }
     });

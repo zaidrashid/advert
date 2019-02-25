@@ -4,6 +4,7 @@
         $location
         ) {
             $scope.onAdvertiserChange = function(advertiserId) {
+                console.log('location change');
                 $location.path('/campaign').search({id: advertiserId});
             };
     });

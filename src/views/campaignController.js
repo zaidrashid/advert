@@ -49,7 +49,6 @@
             });
 
             dataService.getCampaignData(advertiserId).then(function(campaigns) {
-                
                 $scope.campaignsData = {
                     tableData: campaigns,
                     title: 'Campaign data for ' + $scope.advertiserName

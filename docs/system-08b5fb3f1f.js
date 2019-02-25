@@ -53805,6 +53805,7 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
         $location
         ) {
             $scope.onAdvertiserChange = function(advertiserId) {
+                console.log('location change');
                 $location.path('/campaign').search({id: advertiserId});
             };
     });
@@ -53892,7 +53893,6 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
             });
 
             dataService.getCampaignData(advertiserId).then(function(campaigns) {
-                
                 $scope.campaignsData = {
                     tableData: campaigns,
                     title: 'Campaign data for ' + $scope.advertiserName
@@ -54077,15 +54077,21 @@ return Array.prototype.slice.call(arguments).map(function(a){return a}).reduce(f
             var $ctrl = this;
             dataService.getAdvertiserData().then(function(data) {
                 $ctrl.advertisers = data;
+                var param = $location.search();
+
+                if (!param || !param.id) {
+                    return;
+                }
+                $ctrl.selected = param.id;
             });
 
             $ctrl.onSelect = function(s) {
-                console.log('select', s);
                 $ctrl.onAdvertiserChange({id: s});
             };
 
             $ctrl.onReset = function() {
                 $location.path('/');
+                $ctrl.selected = undefined;
             };
         }
     });
